@@ -1,4 +1,4 @@
-# 9th-node-study
+# 10th-node-study
 
 ## 🌲브랜치 규칙
 - 브랜치 명 : week00_닉네임(영어)
