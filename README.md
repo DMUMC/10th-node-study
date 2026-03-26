@@ -10,13 +10,9 @@
 ├── vex
 │    └── src
 ├── unyeon
-│    └── src
 ├── sena
-│    └── src
 ├── root
-│    └── src
 ├── doeyat
-│    └── src
 └── README.md
 ```
 
