@@ -1,0 +1,384 @@
+{
+  "$schema": "https://raw.githubusercontent.com/dineug/erd-editor/main/json-schema/schema.json",
+  "version": "3.0.0",
+  "settings": {
+    "width": 3200,
+    "height": 2400,
+    "scrollTop": 0,
+    "scrollLeft": 0,
+    "zoomLevel": 1,
+    "show": 431,
+    "database": 4,
+    "databaseName": "",
+    "canvasType": "ERD",
+    "language": 1,
+    "tableNameCase": 4,
+    "columnNameCase": 2,
+    "bracketType": 1,
+    "relationshipDataTypeSync": true,
+    "relationshipOptimization": false,
+    "columnOrder": [1, 2, 4, 8, 16, 32, 64],
+    "maxWidthComment": -1,
+    "ignoreSaveSettings": 0
+  },
+  "doc": {
+    "tableIds": [
+      "t_region", "t_member", "t_terms", "t_member_agree",
+      "t_food_category", "t_member_prefer", "t_store",
+      "t_store_image", "t_store_hours", "t_mission",
+      "t_member_mission", "t_review", "t_review_image"
+    ],
+    "relationshipIds": [
+      "r01", "r02", "r03", "r04", "r05", "r06", "r07",
+      "r08", "r09", "r10", "r11", "r12", "r13", "r14"
+    ],
+    "indexIds": [],
+    "memoIds": []
+  },
+  "collections": {
+    "tableEntities": {
+      "t_region": {
+        "id": "t_region",
+        "name": "region",
+        "comment": "",
+        "columnIds": ["c_reg_id", "c_reg_name", "c_reg_created", "c_reg_updated"],
+        "seqColumnIds": ["c_reg_id", "c_reg_name", "c_reg_created", "c_reg_updated"],
+        "ui": { "x": 50, "y": 200, "zIndex": 1, "widthName": 80, "widthComment": 60, "color": "" },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "t_member": {
+        "id": "t_member",
+        "name": "member",
+        "comment": "",
+        "columnIds": [
+          "c_mem_id", "c_mem_social_type", "c_mem_social_id", "c_mem_name",
+          "c_mem_nickname", "c_mem_profile_image_url", "c_mem_phone_num",
+          "c_mem_phone_verified", "c_mem_birth", "c_mem_gender",
+          "c_mem_address", "c_mem_spec_address", "c_mem_point",
+          "c_mem_status", "c_mem_inactive_date", "c_mem_created", "c_mem_updated"
+        ],
+        "seqColumnIds": [
+          "c_mem_id", "c_mem_social_type", "c_mem_social_id", "c_mem_name",
+          "c_mem_nickname", "c_mem_profile_image_url", "c_mem_phone_num",
+          "c_mem_phone_verified", "c_mem_birth", "c_mem_gender",
+          "c_mem_address", "c_mem_spec_address", "c_mem_point",
+          "c_mem_status", "c_mem_inactive_date", "c_mem_created", "c_mem_updated"
+        ],
+        "ui": { "x": 1500, "y": 50, "zIndex": 2, "widthName": 80, "widthComment": 60, "color": "" },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "t_terms": {
+        "id": "t_terms",
+        "name": "terms",
+        "comment": "",
+        "columnIds": ["c_ter_id", "c_ter_title", "c_ter_content", "c_ter_optional", "c_ter_created", "c_ter_updated"],
+        "seqColumnIds": ["c_ter_id", "c_ter_title", "c_ter_content", "c_ter_optional", "c_ter_created", "c_ter_updated"],
+        "ui": { "x": 1500, "y": 700, "zIndex": 3, "widthName": 80, "widthComment": 60, "color": "" },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "t_member_agree": {
+        "id": "t_member_agree",
+        "name": "member_agree",
+        "comment": "",
+        "columnIds": ["c_mag_member_id", "c_mag_terms_id", "c_mag_created", "c_mag_updated"],
+        "seqColumnIds": ["c_mag_member_id", "c_mag_terms_id", "c_mag_created", "c_mag_updated"],
+        "ui": { "x": 2050, "y": 500, "zIndex": 4, "widthName": 120, "widthComment": 60, "color": "" },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "t_food_category": {
+        "id": "t_food_category",
+        "name": "food_category",
+        "comment": "",
+        "columnIds": ["c_fc_id", "c_fc_name", "c_fc_created", "c_fc_updated"],
+        "seqColumnIds": ["c_fc_id", "c_fc_name", "c_fc_created", "c_fc_updated"],
+        "ui": { "x": 50, "y": 600, "zIndex": 5, "widthName": 130, "widthComment": 60, "color": "" },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "t_member_prefer": {
+        "id": "t_member_prefer",
+        "name": "member_prefer",
+        "comment": "",
+        "columnIds": ["c_mpref_member_id", "c_mpref_food_id", "c_mpref_created", "c_mpref_updated"],
+        "seqColumnIds": ["c_mpref_member_id", "c_mpref_food_id", "c_mpref_created", "c_mpref_updated"],
+        "ui": { "x": 2050, "y": 150, "zIndex": 6, "widthName": 130, "widthComment": 60, "color": "" },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "t_store": {
+        "id": "t_store",
+        "name": "store",
+        "comment": "",
+        "columnIds": [
+          "c_sto_id", "c_sto_region_id", "c_sto_fc_id", "c_sto_name",
+          "c_sto_description", "c_sto_lat", "c_sto_lng",
+          "c_sto_address", "c_sto_status", "c_sto_created", "c_sto_updated"
+        ],
+        "seqColumnIds": [
+          "c_sto_id", "c_sto_region_id", "c_sto_fc_id", "c_sto_name",
+          "c_sto_description", "c_sto_lat", "c_sto_lng",
+          "c_sto_address", "c_sto_status", "c_sto_created", "c_sto_updated"
+        ],
+        "ui": { "x": 500, "y": 300, "zIndex": 7, "widthName": 80, "widthComment": 60, "color": "" },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "t_store_image": {
+        "id": "t_store_image",
+        "name": "store_image",
+        "comment": "",
+        "columnIds": ["c_si_id", "c_si_store_id", "c_si_image_url", "c_si_created", "c_si_updated"],
+        "seqColumnIds": ["c_si_id", "c_si_store_id", "c_si_image_url", "c_si_created", "c_si_updated"],
+        "ui": { "x": 1000, "y": 50, "zIndex": 8, "widthName": 110, "widthComment": 60, "color": "" },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "t_store_hours": {
+        "id": "t_store_hours",
+        "name": "store_hours",
+        "comment": "",
+        "columnIds": ["c_sh_id", "c_sh_store_id", "c_sh_day_of_week", "c_sh_open_time", "c_sh_close_time", "c_sh_created", "c_sh_updated"],
+        "seqColumnIds": ["c_sh_id", "c_sh_store_id", "c_sh_day_of_week", "c_sh_open_time", "c_sh_close_time", "c_sh_created", "c_sh_updated"],
+        "ui": { "x": 1000, "y": 400, "zIndex": 9, "widthName": 110, "widthComment": 60, "color": "" },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "t_mission": {
+        "id": "t_mission",
+        "name": "mission",
+        "comment": "",
+        "columnIds": ["c_mis_id", "c_mis_store_id", "c_mis_title", "c_mis_reward", "c_mis_spec", "c_mis_deadline", "c_mis_created", "c_mis_updated"],
+        "seqColumnIds": ["c_mis_id", "c_mis_store_id", "c_mis_title", "c_mis_reward", "c_mis_spec", "c_mis_deadline", "c_mis_created", "c_mis_updated"],
+        "ui": { "x": 500, "y": 850, "zIndex": 10, "widthName": 80, "widthComment": 60, "color": "" },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "t_member_mission": {
+        "id": "t_member_mission",
+        "name": "member_mission",
+        "comment": "",
+        "columnIds": ["c_mm_member_id", "c_mm_mission_id", "c_mm_status", "c_mm_created", "c_mm_updated"],
+        "seqColumnIds": ["c_mm_member_id", "c_mm_mission_id", "c_mm_status", "c_mm_created", "c_mm_updated"],
+        "ui": { "x": 1000, "y": 850, "zIndex": 11, "widthName": 140, "widthComment": 60, "color": "" },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "t_review": {
+        "id": "t_review",
+        "name": "review",
+        "comment": "",
+        "columnIds": ["c_rev_id", "c_rev_member_id", "c_rev_store_id", "c_rev_content", "c_rev_score", "c_rev_owner_reply", "c_rev_created", "c_rev_updated"],
+        "seqColumnIds": ["c_rev_id", "c_rev_member_id", "c_rev_store_id", "c_rev_content", "c_rev_score", "c_rev_owner_reply", "c_rev_created", "c_rev_updated"],
+        "ui": { "x": 1500, "y": 1100, "zIndex": 12, "widthName": 80, "widthComment": 60, "color": "" },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "t_review_image": {
+        "id": "t_review_image",
+        "name": "review_image",
+        "comment": "",
+        "columnIds": ["c_ri_id", "c_ri_review_id", "c_ri_image_url", "c_ri_created", "c_ri_updated"],
+        "seqColumnIds": ["c_ri_id", "c_ri_review_id", "c_ri_image_url", "c_ri_created", "c_ri_updated"],
+        "ui": { "x": 2050, "y": 1100, "zIndex": 13, "widthName": 120, "widthComment": 60, "color": "" },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      }
+    },
+    "tableColumnEntities": {
+      "c_reg_id":      { "id": "c_reg_id",      "tableId": "t_region", "name": "id",         "comment": "", "dataType": "BIGINT",   "default": "", "options": 8, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_reg_name":    { "id": "c_reg_name",    "tableId": "t_region", "name": "name",       "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_reg_created": { "id": "c_reg_created", "tableId": "t_region", "name": "created_at", "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_reg_updated": { "id": "c_reg_updated", "tableId": "t_region", "name": "updated_at", "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+
+      "c_mem_id":                { "id": "c_mem_id",                "tableId": "t_member", "name": "id",                "comment": "", "dataType": "BIGINT",   "default": "", "options": 8, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mem_social_type":       { "id": "c_mem_social_type",       "tableId": "t_member", "name": "social_type",       "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mem_social_id":         { "id": "c_mem_social_id",         "tableId": "t_member", "name": "social_id",         "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mem_name":              { "id": "c_mem_name",              "tableId": "t_member", "name": "name",              "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mem_nickname":          { "id": "c_mem_nickname",          "tableId": "t_member", "name": "nickname",          "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mem_profile_image_url": { "id": "c_mem_profile_image_url", "tableId": "t_member", "name": "profile_image_url", "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mem_phone_num":         { "id": "c_mem_phone_num",         "tableId": "t_member", "name": "phone_num",         "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mem_phone_verified":    { "id": "c_mem_phone_verified",    "tableId": "t_member", "name": "phone_verified",    "comment": "", "dataType": "BOOLEAN",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mem_birth":             { "id": "c_mem_birth",             "tableId": "t_member", "name": "birth",             "comment": "", "dataType": "DATE",     "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mem_gender":            { "id": "c_mem_gender",            "tableId": "t_member", "name": "gender",            "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mem_address":           { "id": "c_mem_address",           "tableId": "t_member", "name": "address",           "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mem_spec_address":      { "id": "c_mem_spec_address",      "tableId": "t_member", "name": "spec_address",      "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mem_point":             { "id": "c_mem_point",             "tableId": "t_member", "name": "point",             "comment": "", "dataType": "INT",      "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mem_status":            { "id": "c_mem_status",            "tableId": "t_member", "name": "status",            "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mem_inactive_date":     { "id": "c_mem_inactive_date",     "tableId": "t_member", "name": "inactive_date",     "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mem_created":           { "id": "c_mem_created",           "tableId": "t_member", "name": "created_at",        "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mem_updated":           { "id": "c_mem_updated",           "tableId": "t_member", "name": "updated_at",        "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+
+      "c_ter_id":       { "id": "c_ter_id",       "tableId": "t_terms", "name": "id",         "comment": "", "dataType": "BIGINT",   "default": "", "options": 8, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_ter_title":    { "id": "c_ter_title",    "tableId": "t_terms", "name": "title",       "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_ter_content":  { "id": "c_ter_content",  "tableId": "t_terms", "name": "content",     "comment": "", "dataType": "TEXT",     "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_ter_optional": { "id": "c_ter_optional", "tableId": "t_terms", "name": "optional",    "comment": "", "dataType": "BOOLEAN",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_ter_created":  { "id": "c_ter_created",  "tableId": "t_terms", "name": "created_at",  "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_ter_updated":  { "id": "c_ter_updated",  "tableId": "t_terms", "name": "updated_at",  "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+
+      "c_mag_member_id": { "id": "c_mag_member_id", "tableId": "t_member_agree", "name": "member_id",  "comment": "", "dataType": "BIGINT",   "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mag_terms_id":  { "id": "c_mag_terms_id",  "tableId": "t_member_agree", "name": "terms_id",   "comment": "", "dataType": "BIGINT",   "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mag_created":   { "id": "c_mag_created",   "tableId": "t_member_agree", "name": "created_at", "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mag_updated":   { "id": "c_mag_updated",   "tableId": "t_member_agree", "name": "updated_at", "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+
+      "c_fc_id":      { "id": "c_fc_id",      "tableId": "t_food_category", "name": "id",         "comment": "", "dataType": "BIGINT",   "default": "", "options": 8, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_fc_name":    { "id": "c_fc_name",    "tableId": "t_food_category", "name": "name",       "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_fc_created": { "id": "c_fc_created", "tableId": "t_food_category", "name": "created_at", "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_fc_updated": { "id": "c_fc_updated", "tableId": "t_food_category", "name": "updated_at", "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+
+      "c_mpref_member_id": { "id": "c_mpref_member_id", "tableId": "t_member_prefer", "name": "member_id",  "comment": "", "dataType": "BIGINT",   "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mpref_food_id":   { "id": "c_mpref_food_id",   "tableId": "t_member_prefer", "name": "food_id",    "comment": "", "dataType": "BIGINT",   "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mpref_created":   { "id": "c_mpref_created",   "tableId": "t_member_prefer", "name": "created_at", "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mpref_updated":   { "id": "c_mpref_updated",   "tableId": "t_member_prefer", "name": "updated_at", "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+
+      "c_sto_id":          { "id": "c_sto_id",          "tableId": "t_store", "name": "id",              "comment": "", "dataType": "BIGINT",   "default": "", "options": 8, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_sto_region_id":   { "id": "c_sto_region_id",   "tableId": "t_store", "name": "region_id",        "comment": "", "dataType": "BIGINT",   "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_sto_fc_id":       { "id": "c_sto_fc_id",       "tableId": "t_store", "name": "food_category_id", "comment": "", "dataType": "BIGINT",   "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_sto_name":        { "id": "c_sto_name",        "tableId": "t_store", "name": "name",             "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_sto_description": { "id": "c_sto_description", "tableId": "t_store", "name": "description",      "comment": "", "dataType": "TEXT",     "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_sto_lat":         { "id": "c_sto_lat",         "tableId": "t_store", "name": "lat",              "comment": "", "dataType": "DECIMAL",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_sto_lng":         { "id": "c_sto_lng",         "tableId": "t_store", "name": "lng",              "comment": "", "dataType": "DECIMAL",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_sto_address":     { "id": "c_sto_address",     "tableId": "t_store", "name": "address",          "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_sto_status":      { "id": "c_sto_status",      "tableId": "t_store", "name": "status",           "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_sto_created":     { "id": "c_sto_created",     "tableId": "t_store", "name": "created_at",       "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_sto_updated":     { "id": "c_sto_updated",     "tableId": "t_store", "name": "updated_at",       "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+
+      "c_si_id":        { "id": "c_si_id",        "tableId": "t_store_image", "name": "id",         "comment": "", "dataType": "BIGINT",   "default": "", "options": 8, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_si_store_id":  { "id": "c_si_store_id",  "tableId": "t_store_image", "name": "store_id",   "comment": "", "dataType": "BIGINT",   "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_si_image_url": { "id": "c_si_image_url", "tableId": "t_store_image", "name": "image_url",  "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_si_created":   { "id": "c_si_created",   "tableId": "t_store_image", "name": "created_at", "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_si_updated":   { "id": "c_si_updated",   "tableId": "t_store_image", "name": "updated_at", "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+
+      "c_sh_id":          { "id": "c_sh_id",          "tableId": "t_store_hours", "name": "id",          "comment": "", "dataType": "BIGINT",   "default": "", "options": 8, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_sh_store_id":    { "id": "c_sh_store_id",    "tableId": "t_store_hours", "name": "store_id",    "comment": "", "dataType": "BIGINT",   "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_sh_day_of_week": { "id": "c_sh_day_of_week", "tableId": "t_store_hours", "name": "day_of_week", "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_sh_open_time":   { "id": "c_sh_open_time",   "tableId": "t_store_hours", "name": "open_time",   "comment": "", "dataType": "TIME",     "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_sh_close_time":  { "id": "c_sh_close_time",  "tableId": "t_store_hours", "name": "close_time",  "comment": "", "dataType": "TIME",     "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_sh_created":     { "id": "c_sh_created",     "tableId": "t_store_hours", "name": "created_at",  "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_sh_updated":     { "id": "c_sh_updated",     "tableId": "t_store_hours", "name": "updated_at",  "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+
+      "c_mis_id":       { "id": "c_mis_id",       "tableId": "t_mission", "name": "id",        "comment": "", "dataType": "BIGINT",   "default": "", "options": 8, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mis_store_id": { "id": "c_mis_store_id", "tableId": "t_mission", "name": "store_id",  "comment": "", "dataType": "BIGINT",   "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mis_title":    { "id": "c_mis_title",    "tableId": "t_mission", "name": "title",     "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mis_reward":   { "id": "c_mis_reward",   "tableId": "t_mission", "name": "reward",    "comment": "", "dataType": "INT",      "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mis_spec":     { "id": "c_mis_spec",     "tableId": "t_mission", "name": "spec",      "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mis_deadline": { "id": "c_mis_deadline", "tableId": "t_mission", "name": "dead_line", "comment": "", "dataType": "DATE",     "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mis_created":  { "id": "c_mis_created",  "tableId": "t_mission", "name": "created_at","comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mis_updated":  { "id": "c_mis_updated",  "tableId": "t_mission", "name": "updated_at","comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+
+      "c_mm_member_id":  { "id": "c_mm_member_id",  "tableId": "t_member_mission", "name": "member_id",  "comment": "", "dataType": "BIGINT",   "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mm_mission_id": { "id": "c_mm_mission_id", "tableId": "t_member_mission", "name": "mission_id", "comment": "", "dataType": "BIGINT",   "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mm_status":     { "id": "c_mm_status",     "tableId": "t_member_mission", "name": "status",     "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mm_created":    { "id": "c_mm_created",    "tableId": "t_member_mission", "name": "created_at", "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_mm_updated":    { "id": "c_mm_updated",    "tableId": "t_member_mission", "name": "updated_at", "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+
+      "c_rev_id":          { "id": "c_rev_id",          "tableId": "t_review", "name": "id",          "comment": "", "dataType": "BIGINT",   "default": "", "options": 8, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_rev_member_id":   { "id": "c_rev_member_id",   "tableId": "t_review", "name": "member_id",   "comment": "", "dataType": "BIGINT",   "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_rev_store_id":    { "id": "c_rev_store_id",    "tableId": "t_review", "name": "store_id",    "comment": "", "dataType": "BIGINT",   "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_rev_content":     { "id": "c_rev_content",     "tableId": "t_review", "name": "content",     "comment": "", "dataType": "TEXT",     "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_rev_score":       { "id": "c_rev_score",       "tableId": "t_review", "name": "score",       "comment": "", "dataType": "DECIMAL",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_rev_owner_reply": { "id": "c_rev_owner_reply", "tableId": "t_review", "name": "owner_reply", "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_rev_created":     { "id": "c_rev_created",     "tableId": "t_review", "name": "created_at",  "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_rev_updated":     { "id": "c_rev_updated",     "tableId": "t_review", "name": "updated_at",  "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+
+      "c_ri_id":        { "id": "c_ri_id",        "tableId": "t_review_image", "name": "id",         "comment": "", "dataType": "BIGINT",   "default": "", "options": 8, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_ri_review_id": { "id": "c_ri_review_id", "tableId": "t_review_image", "name": "review_id",  "comment": "", "dataType": "BIGINT",   "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_ri_image_url": { "id": "c_ri_image_url", "tableId": "t_review_image", "name": "image_url",  "comment": "", "dataType": "VARCHAR",  "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_ri_created":   { "id": "c_ri_created",   "tableId": "t_review_image", "name": "created_at", "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } },
+      "c_ri_updated":   { "id": "c_ri_updated",   "tableId": "t_review_image", "name": "updated_at", "comment": "", "dataType": "DATETIME", "default": "", "options": 0, "ui": { "keys": 0, "widthName": 60, "widthComment": 60, "widthDataType": 60, "widthDefault": 60 }, "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 } }
+    },
+    "relationshipEntities": {
+      "r01": {
+        "id": "r01", "identification": false,
+        "relationshipType": "ZeroN", "startRelationshipType": "OneOnly",
+        "start": { "tableId": "t_region",        "columnIds": ["c_reg_id"],          "x": 0, "y": 0, "direction": "right" },
+        "end":   { "tableId": "t_store",          "columnIds": ["c_sto_region_id"],   "x": 0, "y": 0, "direction": "left"  },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "r02": {
+        "id": "r02", "identification": false,
+        "relationshipType": "ZeroN", "startRelationshipType": "OneOnly",
+        "start": { "tableId": "t_member",        "columnIds": ["c_mem_id"],          "x": 0, "y": 0, "direction": "left"  },
+        "end":   { "tableId": "t_member_agree",  "columnIds": ["c_mag_member_id"],   "x": 0, "y": 0, "direction": "right" },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "r03": {
+        "id": "r03", "identification": false,
+        "relationshipType": "ZeroN", "startRelationshipType": "OneOnly",
+        "start": { "tableId": "t_terms",         "columnIds": ["c_ter_id"],          "x": 0, "y": 0, "direction": "right" },
+        "end":   { "tableId": "t_member_agree",  "columnIds": ["c_mag_terms_id"],    "x": 0, "y": 0, "direction": "left"  },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "r04": {
+        "id": "r04", "identification": false,
+        "relationshipType": "ZeroN", "startRelationshipType": "OneOnly",
+        "start": { "tableId": "t_member",        "columnIds": ["c_mem_id"],          "x": 0, "y": 0, "direction": "right" },
+        "end":   { "tableId": "t_member_prefer", "columnIds": ["c_mpref_member_id"], "x": 0, "y": 0, "direction": "left"  },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "r05": {
+        "id": "r05", "identification": false,
+        "relationshipType": "ZeroN", "startRelationshipType": "OneOnly",
+        "start": { "tableId": "t_food_category", "columnIds": ["c_fc_id"],           "x": 0, "y": 0, "direction": "right" },
+        "end":   { "tableId": "t_member_prefer", "columnIds": ["c_mpref_food_id"],   "x": 0, "y": 0, "direction": "left"  },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "r06": {
+        "id": "r06", "identification": false,
+        "relationshipType": "ZeroN", "startRelationshipType": "OneOnly",
+        "start": { "tableId": "t_food_category", "columnIds": ["c_fc_id"],           "x": 0, "y": 0, "direction": "right" },
+        "end":   { "tableId": "t_store",         "columnIds": ["c_sto_fc_id"],       "x": 0, "y": 0, "direction": "left"  },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "r07": {
+        "id": "r07", "identification": false,
+        "relationshipType": "ZeroN", "startRelationshipType": "OneOnly",
+        "start": { "tableId": "t_store",       "columnIds": ["c_sto_id"],          "x": 0, "y": 0, "direction": "right" },
+        "end":   { "tableId": "t_store_image", "columnIds": ["c_si_store_id"],     "x": 0, "y": 0, "direction": "left"  },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "r08": {
+        "id": "r08", "identification": false,
+        "relationshipType": "ZeroN", "startRelationshipType": "OneOnly",
+        "start": { "tableId": "t_store",       "columnIds": ["c_sto_id"],          "x": 0, "y": 0, "direction": "right" },
+        "end":   { "tableId": "t_store_hours", "columnIds": ["c_sh_store_id"],     "x": 0, "y": 0, "direction": "left"  },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "r09": {
+        "id": "r09", "identification": false,
+        "relationshipType": "ZeroN", "startRelationshipType": "OneOnly",
+        "start": { "tableId": "t_store",   "columnIds": ["c_sto_id"],          "x": 0, "y": 0, "direction": "bottom" },
+        "end":   { "tableId": "t_mission", "columnIds": ["c_mis_store_id"],    "x": 0, "y": 0, "direction": "top"    },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "r10": {
+        "id": "r10", "identification": false,
+        "relationshipType": "ZeroN", "startRelationshipType": "OneOnly",
+        "start": { "tableId": "t_member",         "columnIds": ["c_mem_id"],          "x": 0, "y": 0, "direction": "bottom" },
+        "end":   { "tableId": "t_member_mission", "columnIds": ["c_mm_member_id"],    "x": 0, "y": 0, "direction": "top"    },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "r11": {
+        "id": "r11", "identification": false,
+        "relationshipType": "ZeroN", "startRelationshipType": "OneOnly",
+        "start": { "tableId": "t_mission",        "columnIds": ["c_mis_id"],          "x": 0, "y": 0, "direction": "right" },
+        "end":   { "tableId": "t_member_mission", "columnIds": ["c_mm_mission_id"],   "x": 0, "y": 0, "direction": "left"  },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "r12": {
+        "id": "r12", "identification": false,
+        "relationshipType": "ZeroN", "startRelationshipType": "OneOnly",
+        "start": { "tableId": "t_member", "columnIds": ["c_mem_id"],          "x": 0, "y": 0, "direction": "bottom" },
+        "end":   { "tableId": "t_review", "columnIds": ["c_rev_member_id"],   "x": 0, "y": 0, "direction": "top"    },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "r13": {
+        "id": "r13", "identification": false,
+        "relationshipType": "ZeroN", "startRelationshipType": "OneOnly",
+        "start": { "tableId": "t_store",  "columnIds": ["c_sto_id"],          "x": 0, "y": 0, "direction": "bottom" },
+        "end":   { "tableId": "t_review", "columnIds": ["c_rev_store_id"],    "x": 0, "y": 0, "direction": "left"   },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      },
+      "r14": {
+        "id": "r14", "identification": false,
+        "relationshipType": "ZeroN", "startRelationshipType": "OneOnly",
+        "start": { "tableId": "t_review",       "columnIds": ["c_rev_id"],          "x": 0, "y": 0, "direction": "right" },
+        "end":   { "tableId": "t_review_image", "columnIds": ["c_ri_review_id"],    "x": 0, "y": 0, "direction": "left"  },
+        "meta": { "updateAt": 1742428800000, "createAt": 1742428800000 }
+      }
+    },
+    "indexEntities": {},
+    "indexColumnEntities": {},
+    "memoEntities": {}
+  }
+}
