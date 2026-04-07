@@ -1,0 +1,19 @@
+{
+  "name": "umc-week4",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "UMC 4주차 - Node.js ES6 기반 서버 개발 기초",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon --exec node src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
