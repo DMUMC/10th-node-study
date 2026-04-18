@@ -64,13 +64,14 @@ export const findMemberMission = async (
 export const addMemberMission = async (
   memberId: number,
   missionId: number,
+  status: string,
 ): Promise<number> => {
   const conn = await pool.getConnection()
   try {
     const [result] = await conn.query<ResultSetHeader>(
       `INSERT INTO member_mission (member_id, mission_id, status)
-       VALUES (?, ?, 'CHALLENGING')`,
-      [memberId, missionId],
+       VALUES (?, ?, ?)`,
+      [memberId, missionId, status],
     )
     return result.insertId
   } catch (err) {

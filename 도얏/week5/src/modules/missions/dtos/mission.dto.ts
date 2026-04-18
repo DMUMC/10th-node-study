@@ -9,6 +9,7 @@ export interface MissionCreateRequest {
 // 미션 도전 요청 인터페이스
 export interface MissionChallengeRequest {
   memberId: number
+  status: 'CHALLENGING' | 'COMPLETE'
 }
 
 // req.body → 내부 데이터로 변환 (미션 추가)

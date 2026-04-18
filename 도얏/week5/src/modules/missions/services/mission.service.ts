@@ -57,13 +57,18 @@ export const challengeMission = async (
     throw makeError('존재하지 않는 미션입니다.', 404)
   }
 
+  // 필수값 검증
+  if (!data.status) {
+    throw makeError('status는 필수 입력값입니다. (CHALLENGING 또는 COMPLETE)', 400)
+  }
+
   // 이미 도전 중인지 검증
   const existing = await findMemberMission(data.memberId, missionId)
   if (existing) {
     throw makeError('이미 도전 중인 미션입니다.', 409)
   }
 
-  const memberMissionId = await addMemberMission(data.memberId, missionId)
+  const memberMissionId = await addMemberMission(data.memberId, missionId, data.status)
 
   const memberMission = await getMemberMissionById(memberMissionId)
   if (!memberMission) {
