@@ -1,0 +1,15 @@
+# dependency directories
+node_modules/
+
+# dotenv environment variable files
+.env
+.env.*
+!.env.example
+
+# logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
