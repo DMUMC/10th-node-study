@@ -8,9 +8,11 @@
 - 해당 프로젝트에서 실습을 진행해주시면 됩니다.
 ```
 ├── vex
-│    └── src
+│    └── week01
 ├── unyeon
-├── chunwol
+├── sena
+├── root
+├── doeyat
 └── README.md
 ```
 
