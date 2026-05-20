@@ -1,0 +1,21 @@
+# dependency directories
+node_modules/
+
+# build output
+dist/
+
+# dotenv environment variable files
+.env
+.env.local
+.env.development
+.env.production
+.env.*
+
+# macOS
+.DS_Store
+
+# logs
+*.log
+npm-debug.log*
+
+/src/generated/prisma
