@@ -54,7 +54,7 @@ app.patch("/api/user-missions/:userMissionId/complete", async (req, res, next) =
   } catch (err) { next(err); }
 });
 
-// 에러 핸들러 
+// 에러 핸들러
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof AppError) {
     res.status(err.statusCode).json({

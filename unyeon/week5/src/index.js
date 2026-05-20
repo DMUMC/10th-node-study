@@ -1,0 +1,45 @@
+import cors from 'cors'
+import dotenv from 'dotenv'
+import express from 'express'
+
+import { memberRouter } from './routes/member.route.js'
+import { regionRouter } from './routes/region.route.js'
+import { storeRouter } from './routes/store.route.js'
+import { missionRouter } from './routes/mission.route.js'
+
+import { responseHandler } from './middlewares/response.middleware.js'
+import {
+  errorHandler,
+  notFoundHandler,
+} from './middlewares/error.middleware.js'
+
+dotenv.config()
+
+const app = express()
+const port = process.env.PORT || 3000
+
+// ===== 전역 미들웨어 =====
+app.use(cors())
+app.use(express.static('public'))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(responseHandler) // res.success / res.error 주입
+
+// ===== 헬스 체크 =====
+app.get('/', (req, res) => {
+  res.send('UMC 5주차 서버 실행 중!')
+})
+
+// ===== API 라우터 =====
+app.use('/api/v1/members', memberRouter)
+app.use('/api/v1/regions', regionRouter)
+app.use('/api/v1/stores', storeRouter)
+app.use('/api/v1/missions', missionRouter)
+
+// ===== 404 + 에러 핸들러 (항상 마지막) =====
+app.use(notFoundHandler)
+app.use(errorHandler)
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`)
+})

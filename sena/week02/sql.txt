@@ -1,0 +1,25 @@
+1)
+
+SELECT *
+FROM member_mission
+JOIN mission ON member_mission.mission_id = mission.mission_id
+WHERE member_mission.status = '진행중';
+
+2)
+
+INSERT INTO review (member_id, store_id, score, content)
+VALUES (1, 10, 5, '음 너무 맛있어요 포인트도 얻고 맛집도 알게 된것 같아 너무나도 행복한 식사였답니다. 다음에 또 올게요!!');
+
+3)
+
+SELECT s.store_name, s.category, m.description, m.point
+FROM mission m
+JOIN store s ON m.store_id = s.store_id
+WHERE s.region_name = '월계동'
+AND m.status = '할수있음'
+
+4)
+
+SELECT nickname, email, phone_number, total_point
+FROM member
+WHERW member_id = 1;
