@@ -1,0 +1,27 @@
+{
+  "name": "umc-week8",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "UMC 8주차 프론트엔드 연동과 Swagger",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon -e js,json,prisma --exec \"prisma generate && node src/index.js\""
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^5.2.1",
+    "http-status-codes": "^2.3.0",
+    "morgan": "^1.10.1",
+    "prisma": "^5.22.0",
+    "swagger-autogen": "^2.23.7",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
