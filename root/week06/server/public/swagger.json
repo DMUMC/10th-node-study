@@ -1,0 +1,273 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"SR": {
+				"properties": {
+					"isSuccess": {
+						"type": "boolean",
+						"enum": [
+							true
+						],
+						"nullable": false
+					},
+					"code": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					},
+					"result": {}
+				},
+				"required": [
+					"isSuccess",
+					"code",
+					"message",
+					"result"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"ErrorResponse": {
+				"properties": {
+					"isSuccess": {
+						"type": "boolean",
+						"enum": [
+							false
+						],
+						"nullable": false
+					},
+					"code": {
+						"type": "string"
+					},
+					"message": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"isSuccess",
+					"code",
+					"message"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "server",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/api/users/{userId}/reviews": {
+			"get": {
+				"operationId": "GetMyReviews",
+				"responses": {
+					"200": {
+						"description": "성공",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SR"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "존재하지 않는 유저입니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "내가 작성한 리뷰 목록을 조회합니다.",
+				"tags": [
+					"User"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/api/users/{userId}/missions": {
+			"get": {
+				"operationId": "GetMyMissions",
+				"responses": {
+					"200": {
+						"description": "성공",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SR"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "존재하지 않는 유저입니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "내가 진행 중인 미션 목록을 조회합니다.",
+				"tags": [
+					"User"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "status",
+						"required": false,
+						"schema": {
+							"default": "IN_PROGRESS",
+							"type": "string",
+							"enum": [
+								"IN_PROGRESS",
+								"COMPLETED"
+							]
+						}
+					}
+				]
+			}
+		},
+		"/api/stores/{storeId}/missions": {
+			"get": {
+				"operationId": "GetStoreMissions",
+				"responses": {
+					"200": {
+						"description": "성공",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SR"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "존재하지 않는 가게입니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "특정 가게의 미션 목록을 조회합니다.",
+				"tags": [
+					"Store"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "storeId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/api/user-missions/{userMissionId}/complete": {
+			"patch": {
+				"operationId": "CompleteMission",
+				"responses": {
+					"200": {
+						"description": "성공",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SR"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "존재하지 않는 미션입니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					},
+					"409": {
+						"description": "이미 완료된 미션입니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "진행 중인 미션을 완료 처리합니다.",
+				"tags": [
+					"Mission"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userMissionId",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}

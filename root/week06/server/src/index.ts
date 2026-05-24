@@ -1,33 +1,41 @@
 import "dotenv/config";
-import express from "express";
-import * as repo from "./repository";
+import express, { Request, Response, NextFunction } from "express";
+import morgan from "morgan";
+import cookieParser from "cookie-parser";
+import swaggerUi from "swagger-ui-express";
+import { RegisterRoutes } from "./routes";
+import { AppError } from "./errors";
 
 const app = express();
+
+app.use(morgan("dev"));
+app.use(cookieParser());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// 내가 작성한 리뷰 목록
-app.get("/api/users/:userId/reviews", async (req, res) => {
-  const reviews = await repo.getMyReviews(Number(req.params.userId));
-  res.json({ isSuccess: true, result: reviews });
+// Swagger UI
+const swaggerDocument = require("../public/swagger.json");
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+// TSOA 자동 생성 라우트 등록
+RegisterRoutes(app);
+
+// 에러 핸들러
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  if (err instanceof AppError) {
+    res.status(err.statusCode).json({
+      isSuccess: false,
+      code: err.code,
+      message: err.message,
+    });
+  } else {
+    console.error(err);
+    res.status(500).json({
+      isSuccess: false,
+      code: "5000",
+      message: "서버 에러가 발생했습니다.",
+    });
+  }
 });
 
-// 특정 가게의 미션 목록
-app.get("/api/stores/:storeId/missions", async (req, res) => {
-  const missions = await repo.getStoreMissions(Number(req.params.storeId));
-  res.json({ isSuccess: true, result: missions });
-});
-
-// 내가 진행 중인 미션 목록
-app.get("/api/users/:userId/missions", async (req, res) => {
-  const status = (req.query.status as string) ?? "IN_PROGRESS";
-  const missions = await repo.getMyMissions(Number(req.params.userId), status);
-  res.json({ isSuccess: true, result: missions });
-});
-
-// 미션 완료 처리
-app.patch("/api/user-missions/:userMissionId/complete", async (req, res) => {
-  const updated = await repo.completeMission(Number(req.params.userMissionId));
-  res.json({ isSuccess: true, result: updated });
-});
-
-app.listen(3000, () => console.log("Server is running at http://localhost:3000"));
+app.listen(3000, () => console.log("Server running at http://localhost:3000"));
