@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(timeout 5 npx tsx src/index.ts)"
-    ]
-  }
-}

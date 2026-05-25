@@ -1,0 +1,353 @@
+{
+  "chapter": "Chapter 5. API 및 프로젝트 설정 기초",
+  "branch": "feature/chapter-05",
+  "week4_reference": "../week4",
+  "keywords": [
+    {
+      "term": "환경 변수 (Environment Variables)",
+      "summary": "DB 비밀번호·API Key 등 민감한 값을 코드에 하드코딩하지 않고 .env 파일로 관리. dotenv 라이브러리로 로드하며 .gitignore에 반드시 추가해야 함.",
+      "example": "process.env.DB_PASSWORD"
+    },
+    {
+      "term": "CORS (Cross-Origin Resource Sharing)",
+      "summary": "브라우저가 다른 Origin(도메인·포트)의 서버에 요청할 때 발생하는 보안 정책. Express에서는 cors 미들웨어로 허용 처리.",
+      "example": "app.use(cors())"
+    },
+    {
+      "term": "DB Connection Pool",
+      "summary": "매 요청마다 DB 커넥션을 새로 생성·해제하지 않고, 미리 만들어 둔 커넥션 풀에서 빌려 쓰는 방식. mysql2의 createPool()로 구현. finally 블록에서 conn.release()로 반환해야 함.",
+      "example": "const pool = mysql.createPool({ connectionLimit: 10 })"
+    },
+    {
+      "term": "비동기 (async / await)",
+      "summary": "DB 쿼리·외부 API 호출처럼 응답 대기가 필요한 작업을 Promise 기반으로 처리. async 함수 안에서 await로 결과를 기다리며, 동기 코드처럼 읽기 쉽게 작성 가능.",
+      "example": "const [rows] = await pool.query('SELECT ...')"
+    },
+    {
+      "term": "try / catch / finally",
+      "summary": "비동기 작업에서 발생할 수 있는 에러를 구조적으로 처리. try: 정상 로직, catch: 에러 처리, finally: 커넥션 반환(conn.release()) 등 항상 실행되어야 하는 정리 코드.",
+      "example": "try { ... } catch(err) { throw new Error(...) } finally { conn.release() }"
+    },
+    {
+      "term": "Interface (인터페이스)",
+      "summary": "TypeScript에서 객체의 형태(속성·타입)를 정의하는 설계도. DTO·Repository 반환 타입 등에 활용. ?를 붙이면 선택적 프로퍼티.",
+      "example": "export interface StoreCreateRequest { regionId: number; name: string; address: string; }"
+    },
+    {
+      "term": "Type Assertion (as 키워드)",
+      "summary": "TypeScript 컴파일러에게 '이 값은 이 타입이야'라고 강제로 알려주는 문법. req.body는 기본적으로 any이므로, as 로 정의한 인터페이스 타입으로 변환해 사용.",
+      "example": "req.body as StoreCreateRequest"
+    }
+  ],
+  "project_structure": {
+    "root": "week5/",
+    "note": "week4의 in-memory DB → MySQL 실제 DB 연결로 전환. 모듈형 모노리스 구조 채택.",
+    "files": [
+      "src/index.ts              - Express 앱 진입점, 미들웨어·라우터 등록",
+      "src/db.config.ts          - MySQL Connection Pool 설정",
+      "src/modules/stores/controllers/store.controller.ts",
+      "src/modules/stores/services/store.service.ts",
+      "src/modules/stores/repositories/store.repository.ts",
+      "src/modules/stores/dtos/store.dto.ts",
+      "src/modules/reviews/controllers/review.controller.ts",
+      "src/modules/reviews/services/review.service.ts",
+      "src/modules/reviews/repositories/review.repository.ts",
+      "src/modules/reviews/dtos/review.dto.ts",
+      "src/modules/missions/controllers/mission.controller.ts",
+      "src/modules/missions/services/mission.service.ts",
+      "src/modules/missions/repositories/mission.repository.ts",
+      "src/modules/missions/dtos/mission.dto.ts",
+      ".env                      - DB 접속 정보·PORT (gitignore 필수)",
+      ".gitignore",
+      "package.json",
+      "tsconfig.json",
+      "schema.sql                - week4 schema.sql 재사용 (테이블 이미 정의됨)"
+    ]
+  },
+  "todos": [
+    {
+      "id": 1,
+      "phase": "사전 준비",
+      "title": "GitHub 이슈 생성 및 브랜치 분기",
+      "status": "todo",
+      "details": [
+        "GitHub 저장소 Issues 탭에서 라벨 정리: bug, docs, feature, refactor",
+        "이슈 제목: '[feat] Chapter 5 - API 구현 (가게 추가 / 리뷰 / 미션)'",
+        "Assignee: 본인, Label: feature 로 이슈 생성",
+        "이슈에서 'Create a branch' 클릭 → feature/chapter-05 브랜치 생성",
+        "로컬에서: git fetch origin && git checkout feature/chapter-05"
+      ]
+    },
+    {
+      "id": 2,
+      "phase": "사전 준비",
+      "title": "Postman 설치 및 기본 사용법 확인",
+      "status": "todo",
+      "details": [
+        "Postman 설치 (https://www.postman.com/downloads/)",
+        "Params / Authorization / Headers / Body 탭 역할 이해",
+        "Body > raw > JSON 선택 방법 숙지",
+        "나중에 API 테스트 시 스크린샷 저장할 준비"
+      ]
+    },
+    {
+      "id": 3,
+      "phase": "프로젝트 세팅",
+      "title": "week5 폴더 초기화 및 의존성 설치",
+      "status": "todo",
+      "details": [
+        "cd week5 && npm init -y",
+        "npm install express cors dotenv http-status-codes mysql2",
+        "npm install -D typescript @types/node @types/express @types/cors @types/dotenv nodemon tsx",
+        "npx tsc --init 후 tsconfig.json 수정 (rootDir: ./src, outDir: ./dist, module: NodeNext, strict: true 등)",
+        "week4/tsconfig.json을 참고해 module/moduleResolution 설정 일치시키기",
+        "package.json scripts 추가: start / dev (nodemon --exec tsx src/index.ts)"
+      ]
+    },
+    {
+      "id": 4,
+      "phase": "프로젝트 세팅",
+      "title": ".env 파일 및 .gitignore 작성",
+      "status": "todo",
+      "details": [
+        ".gitignore에 node_modules/ / .env / .env.* 추가",
+        ".env에 PORT=3000, DB_HOST=localhost, DB_PORT=3306, DB_USER=root, DB_PASSWORD=비밀번호, DB_NAME=umc_mission 작성",
+        "DB_NAME은 week4/schema.sql 기준 umc_mission 사용 (이미 테이블 있음)"
+      ]
+    },
+    {
+      "id": 5,
+      "phase": "프로젝트 세팅",
+      "title": "src/db.config.ts 작성 - MySQL Connection Pool",
+      "status": "todo",
+      "details": [
+        "mysql2/promise의 createPool 사용",
+        "환경 변수(DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME)로 설정",
+        "connectionLimit: 10, waitForConnections: true",
+        "week4 schema.sql의 DB(umc_mission)와 연결"
+      ],
+      "reference_week4": "week4/src/db/index.ts 구조 참고 (단, in-memory→MySQL로 변경)"
+    },
+    {
+      "id": 6,
+      "phase": "프로젝트 세팅",
+      "title": "src/index.ts 작성 - Express 앱 진입점",
+      "status": "todo",
+      "details": [
+        "dotenv.config() 최상단 호출",
+        "cors(), express.json(), express.urlencoded() 미들웨어 등록",
+        "각 모듈 라우터 등록: /api/v1/stores, /api/v1/reviews, /api/v1/missions",
+        "전역 에러 핸들러 미들웨어 등록 (시니어 미션: JSON 에러 응답)",
+        "app.listen(process.env.PORT || 3000)"
+      ],
+      "reference_week4": "week4/src/index.ts 구조 그대로 활용, cors·dotenv 추가"
+    },
+    {
+      "id": 7,
+      "phase": "DB 준비",
+      "title": "MySQL에 week5용 테이블 확인 및 더미데이터 삽입",
+      "status": "todo",
+      "details": [
+        "week4/schema.sql로 테이블 생성 (이미 되어있으면 생략)",
+        "food_category 더미데이터 삽입: INSERT INTO food_category(name) VALUES ('한식'),('중식'),('일식'),('양식'),('치킨'),('분식'),('고기/구이'),('도시락'),('아식'),('패스트푸드'),('다저트'),('아시안푸드')",
+        "region 더미데이터 삽입: INSERT INTO region(name) VALUES ('서울'),('경기'),('부산')...",
+        "member 더미데이터 1건 삽입 (API 테스트용 첫 번째 사용자)"
+      ]
+    },
+    {
+      "id": 8,
+      "phase": "API 구현 - 1-1",
+      "title": "[필수] 특정 지역에 가게 추가하기 API",
+      "status": "todo",
+      "priority": "optional",
+      "endpoint": "POST /api/v1/stores",
+      "request_body": {
+        "regionId": "number",
+        "foodCategoryId": "number",
+        "name": "string",
+        "description": "string (선택)",
+        "address": "string",
+        "lat": "number (선택)",
+        "lng": "number (선택)"
+      },
+      "details": [
+        "store.dto.ts - StoreCreateRequest 인터페이스 정의",
+        "store.dto.ts - bodyToStore() 변환 함수 작성",
+        "store.repository.ts - addStore(): INSERT INTO store(...) VALUES(?)",
+        "store.service.ts - createStore(data): addStore 호출 후 결과 반환",
+        "store.controller.ts - handleCreateStore: bodyToStore(req.body as ...) → service 호출 → 201 응답",
+        "index.ts에 라우터 등록: app.post('/api/v1/stores', handleCreateStore)"
+      ],
+      "reference_week4": "week4/src/controllers/store.controller.ts 패턴 참고"
+    },
+    {
+      "id": 9,
+      "phase": "API 구현 - 1-2",
+      "title": "[필수★] 가게에 리뷰 추가하기 API",
+      "status": "todo",
+      "priority": "required",
+      "endpoint": "POST /api/v1/stores/:storeId/reviews",
+      "request_body": {
+        "memberId": "number (특정 사용자로 가정, DB 첫 번째 사용자)",
+        "content": "string",
+        "score": "number (1.0~5.0)"
+      },
+      "details": [
+        "review.dto.ts - ReviewCreateRequest 인터페이스 (content, score, memberId)",
+        "review.dto.ts - bodyToReview() 변환 함수",
+        "review.repository.ts - addReview(): INSERT INTO review(...)",
+        "store.repository.ts (또는 review.repository.ts) - findStoreById(): SELECT * FROM store WHERE id=?",
+        "review.service.ts - createReview(storeId, data): 가게 존재 검증 → addReview 호출",
+        "  검증 실패 시 throw new Error('존재하지 않는 가게입니다.')",
+        "review.controller.ts - handleCreateReview: storeId = parseInt(req.params.storeId) → service 호출",
+        "index.ts에 라우터 등록"
+      ],
+      "validation": "리뷰를 추가하려는 가게가 존재하는지 검증 필요",
+      "reference_week4": "week4/src/services/store.service.ts의 createReview 패턴, week4 스키마의 review 테이블"
+    },
+    {
+      "id": 10,
+      "phase": "API 구현 - 1-3",
+      "title": "가게에 미션 추가하기 API",
+      "status": "todo",
+      "priority": "optional",
+      "endpoint": "POST /api/v1/stores/:storeId/missions",
+      "request_body": {
+        "title": "string",
+        "reward": "number",
+        "spec": "string (선택)",
+        "deadLine": "string (YYYY-MM-DD, 선택)"
+      },
+      "details": [
+        "mission.dto.ts - MissionCreateRequest 인터페이스",
+        "mission.dto.ts - bodyToMission() 변환 함수 (deadLine → Date 변환)",
+        "mission.repository.ts - addMission(): INSERT INTO mission(store_id, title, reward, spec, dead_line)",
+        "mission.service.ts - createMission(storeId, data): 가게 존재 검증 → addMission",
+        "mission.controller.ts - handleCreateMission",
+        "index.ts에 라우터 등록"
+      ],
+      "reference_week4": "week4/src/repositories/mission.repository.ts 패턴, week4 schema.sql의 mission 테이블"
+    },
+    {
+      "id": 11,
+      "phase": "API 구현 - 1-4",
+      "title": "[필수★] 가게의 미션을 도전 중인 미션에 추가(미션 도전하기) API",
+      "status": "todo",
+      "priority": "required",
+      "endpoint": "POST /api/v1/missions/:missionId/challenge",
+      "request_body": {
+        "memberId": "number (특정 사용자로 가정, DB 첫 번째 사용자)"
+      },
+      "details": [
+        "mission.dto.ts - MissionChallengeRequest 인터페이스 ({ memberId: number })",
+        "mission.repository.ts - findMemberMission(): SELECT * FROM member_mission WHERE member_id=? AND mission_id=?",
+        "mission.repository.ts - addMemberMission(): INSERT INTO member_mission(member_id, mission_id, status) VALUES(?,?,'CHALLENGING')",
+        "mission.service.ts - challengeMission(missionId, data): 중복 도전 검증 → addMemberMission",
+        "  검증 실패 시 throw new Error('이미 도전 중인 미션입니다.')",
+        "mission.controller.ts - handleChallengeMission: missionId = parseInt(req.params.missionId) → service",
+        "index.ts에 라우터 등록"
+      ],
+      "validation": "도전하려는 미션이 이미 도전 중이지는 않은지 검증 필요",
+      "reference_week4": "week4/src/repositories/mission.repository.ts, week4 schema.sql의 member_mission 테이블"
+    },
+    {
+      "id": 12,
+      "phase": "추가 미션",
+      "title": "[공통 미션 2번] Controller → Service → Repository → DB 요청 흐름 정리",
+      "status": "todo",
+      "details": [
+        "예: POST /api/v1/stores/:storeId/reviews 요청 흐름을 순서대로 작성",
+        "1. 사용자가 POST /api/v1/stores/1/reviews 요청 전송",
+        "2. index.ts의 라우터가 handleCreateReview 컨트롤러 호출",
+        "3. Controller: req.body를 ReviewCreateRequest 타입으로 변환(bodyToReview), storeId 파싱",
+        "4. Service: 가게 존재 여부 검증(findStoreById) → 없으면 Error throw",
+        "5. Repository: INSERT INTO review 쿼리 실행 → insertId 반환",
+        "6. Service: 결과를 DTO로 변환해 Controller에 반환",
+        "7. Controller: 201 JSON 응답 전송",
+        "워크북의 요약 정리 섹션에 이 내용 포함"
+      ]
+    },
+    {
+      "id": 13,
+      "phase": "추가 미션",
+      "title": "[공통 미션 3번] 회원가입 API에 bcrypt 비밀번호 해싱 추가",
+      "status": "todo",
+      "details": [
+        "npm install bcryptjs && npm install -D @types/bcryptjs (week4에 이미 설치됨)",
+        "member.dto.ts - MemberSignUpRequest 인터페이스에 password 필드 추가",
+        "member.repository.ts - addMember(): INSERT INTO member(..., password) VALUES(...)",
+        "member.service.ts - signUp(): const hashedPw = await bcrypt.hash(data.password, 10) → addMember에 전달",
+        "member.controller.ts - handleSignUp 작성",
+        "POST /api/v1/members/signup 라우터 등록"
+      ],
+      "reference_week4": "week4에서 bcryptjs 이미 사용 중 - week4/package.json 참고"
+    },
+    {
+      "id": 14,
+      "phase": "시니어 미션",
+      "title": "[시니어] 전역 에러 핸들러 - JSON 형태 에러 응답",
+      "status": "todo",
+      "details": [
+        "src/middleware/error.middleware.ts 생성",
+        "ErrorRequestHandler 타입 사용: (err, req, res, next) => void",
+        "res.status(err.status || 500).json({ success: false, message: err.message || '서버 에러' })",
+        "index.ts 맨 마지막에 app.use(errorMiddleware) 등록",
+        "Controller에서 try-catch 제거하거나 next(err) 사용으로 변경",
+        "기존 HTML 에러 응답 → JSON 에러 응답으로 개선"
+      ],
+      "reference_week4": "week4/src/middleware/error.middleware.ts 그대로 활용 가능"
+    },
+    {
+      "id": 15,
+      "phase": "테스트",
+      "title": "Postman / curl로 각 API 호출 및 스크린샷 저장",
+      "status": "todo",
+      "details": [
+        "npm run dev 로 서버 실행",
+        "API 1-1: POST /api/v1/stores - 가게 추가 성공 스크린샷",
+        "API 1-2: POST /api/v1/stores/:storeId/reviews - 리뷰 추가 성공 스크린샷",
+        "API 1-2: 존재하지 않는 storeId로 요청 → 에러 응답 스크린샷",
+        "API 1-3: POST /api/v1/stores/:storeId/missions - 미션 추가 성공 스크린샷",
+        "API 1-4: POST /api/v1/missions/:missionId/challenge - 도전 성공 스크린샷",
+        "API 1-4: 동일 미션 재도전 → '이미 도전 중' 에러 스크린샷",
+        "DB에서 SELECT로 데이터 삽입 확인 스크린샷"
+      ]
+    },
+    {
+      "id": 16,
+      "phase": "마무리",
+      "title": "feature/chapter-05 브랜치에 push 및 PR 생성",
+      "status": "todo",
+      "details": [
+        "git add . && git commit -m 'feat: 5주차 미션 - API 구현 (가게/리뷰/미션)'",
+        "git push origin feature/chapter-05",
+        "GitHub에서 PR 생성 (main 브랜치에 merge하지 말 것!)",
+        "워크북의 미션 기록란에 GitHub 링크 제출",
+        "GitHub 이슈 Close"
+      ]
+    },
+    {
+      "id": 17,
+      "phase": "마무리",
+      "title": "핵심 키워드 및 요약 정리 작성",
+      "status": "todo",
+      "details": [
+        "이 파일 상단의 keywords 섹션을 참고해 워크북에 기입",
+        "요약 정리: Controller→Service→Repository→DB 흐름 설명",
+        "위클리 스크럼 질문 답변: DTO 없이 사용할 때의 문제점 / Service Layer 필요성"
+      ]
+    }
+  ],
+  "required_apis_summary": {
+    "must_implement": ["1-2 (가게에 리뷰 추가하기)", "1-4 (미션 도전하기)"],
+    "minimum_count": "필수 2개 포함 총 3개 이상",
+    "senior_mission": "4개 전부 + JSON 에러 응답 개선"
+  },
+  "key_differences_from_week4": {
+    "database": "in-memory(week4) → MySQL Connection Pool(week5)",
+    "modules": "flat 구조(week4) → 모듈형 모노리스(week5: src/modules/{도메인}/)",
+    "env": ".env 파일 추가 (dotenv 사용)",
+    "cors": "cors 미들웨어 추가",
+    "error_response": "HTML 에러(기본) → JSON 에러(시니어 미션 개선)"
+  }
+}
