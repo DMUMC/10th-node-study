@@ -1,0 +1,17 @@
+export class AppError extends Error {
+  code: string;
+  statusCode: number;
+
+  constructor(message: string, code: string, statusCode: number) {
+    super(message);
+    this.code = code;
+    this.statusCode = statusCode;
+  }
+}
+
+export const errors = {
+  USER_NOT_FOUND:    new AppError("존재하지 않는 유저입니다.", "4040", 404),
+  STORE_NOT_FOUND:   new AppError("존재하지 않는 가게입니다.", "4041", 404),
+  MISSION_NOT_FOUND: new AppError("존재하지 않는 미션입니다.", "4042", 404),
+  ALREADY_COMPLETED: new AppError("이미 완료된 미션입니다.", "4090", 409),
+};
