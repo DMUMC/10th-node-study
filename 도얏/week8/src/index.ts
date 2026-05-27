@@ -7,7 +7,7 @@ import swaggerUi from 'swagger-ui-express'
 import path from 'path'
 import fs from 'fs'
 import { RegisterRoutes } from './generated/routes.js'
-import { errorMiddleware } from './middleware/error.middleware.js'
+import { errorMiddleware } from './middleware/errorMiddleware.js'
 
 // 1. 환경 변수 설정 (가장 먼저 호출)
 dotenv.config()

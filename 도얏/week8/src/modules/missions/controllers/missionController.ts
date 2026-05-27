@@ -1,6 +1,6 @@
 import { Body, Controller, Path, Post, Route, Tags, Response as TsoaResponse, SuccessResponse } from 'tsoa'
-import { MissionChallengeRequest, MissionChallengeResponse } from '../dtos/mission.dto.js'
-import { challengeMission } from '../services/mission.service.js'
+import { MissionChallengeRequest, MissionChallengeResponse } from '../dtos/missionDto.js'
+import { challengeMission } from '../services/missionService.js'
 import { ApiResponse, successResponse } from '../../../utils/response.js'
 
 @Route('missions')

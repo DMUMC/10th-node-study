@@ -14,7 +14,9 @@ export const successResponse = <T>(result: T): ApiResponse<T> => ({
   result,
 })
 
-// 기존 BaseResponse (하위 호환 유지)
+/**
+ * @deprecated successResponse를 사용하세요.
+ */
 export const BaseResponse = <T>(result: T, message = '성공입니다.', code = 'COMMON200') => {
   return {
     isSuccess: true,

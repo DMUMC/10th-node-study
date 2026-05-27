@@ -2,7 +2,7 @@
   "scripts": {
     "build": "tsoa spec-and-routes && tsc",
     "start": "tsoa spec-and-routes && tsx src/index.ts",
-    "dev": "tsoa spec-and-routes && nodemon --ext ts,prisma --ignore src/generated --exec \"npx prisma generate && tsx src/index.ts\""
+    "dev": "tsoa spec-and-routes && nodemon --ext ts,prisma --ignore src/generated --exec \"npx prisma generate --config prismaConfig.ts && tsx src/index.ts\""
   },
   "dependencies": {
     "@prisma/adapter-mariadb": "^7.8.0",

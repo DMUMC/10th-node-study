@@ -1,8 +1,8 @@
 import { Controller, Get, Patch, Path, Query, Route, Tags, Response as TsoaResponse } from 'tsoa'
-import { listUserReviews } from '../../reviews/services/review.service.js'
-import { listOngoingMissions, finishMission } from '../../missions/services/mission.service.js'
-import { UserReviewListResponse } from '../../reviews/dtos/review.dto.js'
-import { OngoingMissionListResponse, MissionChallengeResponse } from '../../missions/dtos/mission.dto.js'
+import { listUserReviews } from '../../reviews/services/reviewService.js'
+import { listOngoingMissions, finishMission } from '../../missions/services/missionService.js'
+import { UserReviewListResponse } from '../../reviews/dtos/reviewDto.js'
+import { OngoingMissionListResponse, MissionChallengeResponse } from '../../missions/dtos/missionDto.js'
 import { ApiResponse, successResponse } from '../../../utils/response.js'
 
 @Route('users')

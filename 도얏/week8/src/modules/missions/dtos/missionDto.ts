@@ -1,4 +1,8 @@
-// 미션 추가 요청 인터페이스
+export enum MissionStatus {
+  CHALLENGING = 'CHALLENGING',
+  COMPLETE = 'COMPLETE',
+}
+
 export interface MissionCreateRequest {
   /** 미션 제목 */
   title: string
@@ -16,7 +20,6 @@ export interface MissionCreateRequest {
   deadLine?: string
 }
 
-// 미션 도전 요청 인터페이스
 export interface MissionChallengeRequest {
   /**
    * 도전할 회원 ID
@@ -27,10 +30,9 @@ export interface MissionChallengeRequest {
    * 미션 상태
    * @example "CHALLENGING"
    */
-  status: 'CHALLENGING' | 'COMPLETE'
+  status?: MissionStatus
 }
 
-// 미션 생성 응답 인터페이스
 export interface MissionCreateResponse {
   /** 생성된 미션 ID */
   missionId: number
@@ -46,7 +48,6 @@ export interface MissionCreateResponse {
   deadLine: Date | null
 }
 
-// 미션 도전 응답 인터페이스
 export interface MissionChallengeResponse {
   /** 회원-미션 매핑 ID */
   memberMissionId: number
@@ -55,19 +56,17 @@ export interface MissionChallengeResponse {
   /** 미션 ID */
   missionId: number
   /** 미션 상태 */
-  status: string
+  status: MissionStatus
 }
 
-// 진행 중 미션 목록 응답 인터페이스
 export interface OngoingMissionListResponse {
-  data: MissionCreateResponse[]
+  data: MissionChallengeResponse[]
   pagination: {
     /** 다음 페이지 커서 */
     cursor: number | null
   }
 }
 
-// 가게 미션 목록 응답 인터페이스
 export interface StoreMissionListResponse {
   data: MissionCreateResponse[]
   pagination: {
@@ -75,7 +74,6 @@ export interface StoreMissionListResponse {
   }
 }
 
-// req.body → 내부 데이터로 변환 (미션 추가)
 export const bodyToMission = (body: MissionCreateRequest) => {
   return {
     title: body.title,
@@ -85,36 +83,34 @@ export const bodyToMission = (body: MissionCreateRequest) => {
   }
 }
 
-// DB 결과 → 응답 형태로 변환 (미션)
 export const responseFromMission = (mission: {
   id: number
-  store_id: number
+  storeId: number
   title: string
   reward: number
   spec: string | null
-  dead_line: Date | null
-}) => {
+  deadLine: Date | null
+}): MissionCreateResponse => {
   return {
     missionId: mission.id,
-    storeId: mission.store_id,
+    storeId: mission.storeId,
     title: mission.title,
     reward: mission.reward,
     spec: mission.spec,
-    deadLine: mission.dead_line,
+    deadLine: mission.deadLine,
   }
 }
 
-// DB 결과 → 응답 형태로 변환 (미션 도전)
 export const responseFromMemberMission = (mm: {
   id: number
-  member_id: number
-  mission_id: number
+  memberId: number
+  missionId: number
   status: string
-}) => {
+}): MissionChallengeResponse => {
   return {
     memberMissionId: mm.id,
-    memberId: mm.member_id,
-    missionId: mm.mission_id,
-    status: mm.status,
+    memberId: mm.memberId,
+    missionId: mm.missionId,
+    status: mm.status as MissionStatus,
   }
 }
