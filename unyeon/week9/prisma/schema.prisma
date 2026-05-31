@@ -1,0 +1,130 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Member {
+  id              BigInt    @id @default(autoincrement())
+  email           String?   @unique @db.VarChar(255)
+  password        String?   @db.VarChar(255)
+  socialType      String?   @map("social_type") @db.VarChar(20)
+  socialId        String?   @map("social_id") @db.VarChar(100)
+  name            String    @db.VarChar(20)
+  nickname        String    @db.VarChar(20)
+  profileImageUrl String?   @map("profile_image_url") @db.VarChar(500)
+  phoneNum        String?   @map("phone_num") @db.VarChar(20)
+  phoneVerified   Boolean?  @map("phone_verified") @default(false)
+  birth           DateTime? @db.Date
+  gender          String?   @db.VarChar(10)
+  address         String?   @db.VarChar(200)
+  specAddress     String?   @map("spec_address") @db.VarChar(200)
+  point           Int?      @default(0)
+  status          String?   @default("ACTIVE") @db.VarChar(20)
+  inactiveDate    DateTime? @map("inactive_date")
+  createdAt       DateTime? @default(now()) @map("created_at")
+  updatedAt       DateTime? @map("updated_at")
+
+  reviews        Review[]
+  memberMissions MemberMission[]
+
+  @@map("member")
+}
+
+model Region {
+  id        BigInt    @id @default(autoincrement())
+  name      String    @db.VarChar(50)
+  createdAt DateTime? @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  stores Store[]
+
+  @@map("region")
+}
+
+model FoodCategory {
+  id        BigInt    @id @default(autoincrement())
+  name      String    @db.VarChar(50)
+  createdAt DateTime? @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  stores Store[]
+
+  @@map("food_category")
+}
+
+model Store {
+  id             BigInt    @id @default(autoincrement())
+  regionId       BigInt    @map("region_id")
+  foodCategoryId BigInt    @map("food_category_id")
+  name           String    @db.VarChar(100)
+  description    String?   @db.Text
+  lat            Decimal?  @db.Decimal(10, 7)
+  lng            Decimal?  @db.Decimal(10, 7)
+  address        String?   @db.VarChar(200)
+  status         String?   @default("ACTIVE") @db.VarChar(20)
+  createdAt      DateTime? @default(now()) @map("created_at")
+  updatedAt      DateTime? @map("updated_at")
+
+  region       Region       @relation(fields: [regionId], references: [id])
+  foodCategory FoodCategory @relation(fields: [foodCategoryId], references: [id])
+  reviews      Review[]
+  missions     Mission[]
+
+  @@index([regionId], map: "region_id")
+  @@index([foodCategoryId], map: "food_category_id")
+  @@map("store")
+}
+
+model Review {
+  id         BigInt    @id @default(autoincrement())
+  memberId   BigInt    @map("member_id")
+  storeId    BigInt    @map("store_id")
+  content    String    @db.Text
+  score      Decimal   @db.Decimal(2, 1)
+  ownerReply String?   @map("owner_reply") @db.VarChar(500)
+  createdAt  DateTime? @default(now()) @map("created_at")
+  updatedAt  DateTime? @map("updated_at")
+
+  member Member @relation(fields: [memberId], references: [id])
+  store  Store  @relation(fields: [storeId], references: [id])
+
+  @@index([memberId], map: "member_id")
+  @@index([storeId], map: "store_id")
+  @@map("review")
+}
+
+model Mission {
+  id        BigInt    @id @default(autoincrement())
+  storeId   BigInt    @map("store_id")
+  title     String    @db.VarChar(100)
+  reward    Int?      @default(0)
+  spec      String?   @db.VarChar(500)
+  deadLine  DateTime? @map("dead_line") @db.Date
+  createdAt DateTime? @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  store          Store           @relation(fields: [storeId], references: [id])
+  memberMissions MemberMission[]
+
+  @@index([storeId], map: "store_id")
+  @@map("mission")
+}
+
+model MemberMission {
+  memberId  BigInt    @map("member_id")
+  missionId BigInt    @map("mission_id")
+  status    String?   @default("CHALLENGING") @db.VarChar(20)
+  createdAt DateTime? @default(now()) @map("created_at")
+  updatedAt DateTime? @map("updated_at")
+
+  member  Member  @relation(fields: [memberId], references: [id])
+  mission Mission @relation(fields: [missionId], references: [id])
+
+  @@id([memberId, missionId])
+  @@index([missionId], map: "mission_id")
+  @@map("member_mission")
+}
