@@ -1,4 +1,4 @@
-import { prisma } from '../../../db.config.js'
+import { prisma } from '../../../dbConfig.js'
 
 // 가게 추가
 export const addStore = async (data: { name: string }): Promise<number> => {
@@ -14,10 +14,10 @@ export const getStoreById = async (storeId: number) =>
 export const getAllStoreReviews = async (storeId: number, cursor: number) =>
   prisma.userStoreReview.findMany({
     select: {
-      id:      true,
+      id: true,
+      userId: true,
+      storeId: true,
       content: true,
-      store:   true,
-      user:    true,
     },
     where: {
       storeId,

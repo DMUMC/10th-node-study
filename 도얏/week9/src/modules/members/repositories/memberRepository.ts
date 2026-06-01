@@ -1,4 +1,4 @@
-import { prisma } from '../../../db.config.js'
+import { prisma } from '../../../dbConfig.js'
 
 // 유저 생성 (이메일 중복 시 null 반환)
 export const addUser = async (data: any) => {

@@ -1,4 +1,4 @@
-import { prisma } from '../../../db.config.js'
+import { prisma } from '../../../dbConfig.js'
 
 // 리뷰 추가
 export const addReview = async (data: {
@@ -8,7 +8,7 @@ export const addReview = async (data: {
 }): Promise<number> => {
   const created = await prisma.userStoreReview.create({
     data: {
-      userId:  data.memberId,
+      userId: data.memberId,
       storeId: data.storeId,
       content: data.content,
     },
@@ -24,7 +24,6 @@ export const getReviewById = async (reviewId: number) =>
 export const getUserReviews = async (userId: number, cursor: number) =>
   prisma.userStoreReview.findMany({
     where: { userId, id: { gt: cursor } },
-    include: { store: true },
     orderBy: { id: 'asc' },
     take: 5,
   })

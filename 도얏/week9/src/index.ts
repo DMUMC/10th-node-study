@@ -8,8 +8,8 @@ import passport from 'passport'
 import path from 'path'
 import fs from 'fs'
 import { RegisterRoutes } from './generated/routes.js'
-import { errorMiddleware } from './middleware/error.middleware.js'
-import { googleStrategy, jwtStrategy, generateAccessToken, generateRefreshToken } from './auth.config.js'
+import { errorMiddleware } from './middleware/errorMiddleware.js'
+import { googleStrategy, jwtStrategy } from './authConfig.js'
 
 // 1. 환경 변수 설정 (가장 먼저 호출)
 dotenv.config()

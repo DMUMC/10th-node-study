@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Path, Post, Query, Request, Route, Security, Tags, Response as TsoaResponse, SuccessResponse } from 'tsoa'
 import { Request as ExRequest } from 'express'
-import { StoreCreateRequest, StoreCreateResponse, ReviewListResponse } from '../dtos/store.dto.js'
-import { createStore, listStoreReviews } from '../services/store.service.js'
-import { createReview } from '../../reviews/services/review.service.js'
-import { createMission, listStoreMissions } from '../../missions/services/mission.service.js'
-import { ReviewCreateRequest, ReviewCreateResponse } from '../../reviews/dtos/review.dto.js'
-import { MissionCreateRequest, MissionCreateResponse, StoreMissionListResponse } from '../../missions/dtos/mission.dto.js'
+import { StoreCreateRequest, StoreCreateResponse, ReviewListResponse } from '../dtos/storeDto.js'
+import { createStore, listStoreReviews } from '../services/storeService.js'
+import { createReview } from '../../reviews/services/reviewService.js'
+import { createMission, listStoreMissions } from '../../missions/services/missionService.js'
+import { ReviewCreateRequest, ReviewCreateResponse } from '../../reviews/dtos/reviewDto.js'
+import { MissionCreateRequest, MissionCreateResponse, StoreMissionListResponse } from '../../missions/dtos/missionDto.js'
 import { ApiResponse, successResponse } from '../../../utils/response.js'
 
 @Route('stores')

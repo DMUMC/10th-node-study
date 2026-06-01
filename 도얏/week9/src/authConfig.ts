@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 import { Strategy as GoogleStrategy, Profile } from 'passport-google-oauth20'
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt'
 import jwt from 'jsonwebtoken'
-import { prisma } from './db.config.js'
+import { prisma } from './dbConfig.js'
 
 dotenv.config()
 

@@ -4,15 +4,18 @@
 import type { TsoaRoute } from '@tsoa/runtime';
 import {  fetchMiddlewares, ExpressTemplateService } from '@tsoa/runtime';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { StoreController } from './../modules/stores/controllers/store.controller';
+import { StoreController } from './../modules/stores/controllers/storeController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { MissionController } from './../modules/missions/controllers/mission.controller';
+import { MissionController } from './../modules/missions/controllers/missionController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { UserController } from './../modules/members/controllers/user.controller';
+import { UserController } from './../modules/members/controllers/userController';
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-import { MemberController } from './../modules/members/controllers/member.controller';
+import { MemberController } from './../modules/members/controllers/memberController';
+import { expressAuthentication } from './../authentication';
+// @ts-ignore - no great way to install types from subpackage
 import type { Request as ExRequest, Response as ExResponse, RequestHandler, Router } from 'express';
 
+const expressAuthenticationRecasted = expressAuthentication as (req: ExRequest, securityName: string, scopes?: string[], res?: ExResponse) => Promise<any>;
 
 
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
@@ -23,8 +26,6 @@ const models: TsoaRoute.Models = {
         "properties": {
             "storeId": {"dataType":"double","required":true},
             "name": {"dataType":"string","required":true},
-            "address": {"dataType":"string","required":true},
-            "regionId": {"dataType":"double","required":true},
         },
         "additionalProperties": false,
     },
@@ -43,13 +44,7 @@ const models: TsoaRoute.Models = {
     "StoreCreateRequest": {
         "dataType": "refObject",
         "properties": {
-            "regionId": {"dataType":"double","required":true},
-            "foodCategoryId": {"dataType":"double","required":true},
             "name": {"dataType":"string","required":true},
-            "description": {"dataType":"string"},
-            "address": {"dataType":"string","required":true},
-            "lat": {"dataType":"double"},
-            "lng": {"dataType":"double"},
         },
         "additionalProperties": false,
     },
@@ -61,8 +56,6 @@ const models: TsoaRoute.Models = {
             "memberId": {"dataType":"double","required":true},
             "storeId": {"dataType":"double","required":true},
             "content": {"dataType":"string","required":true},
-            "score": {"dataType":"double","required":true},
-            "createdAt": {"dataType":"datetime","required":true},
         },
         "additionalProperties": false,
     },
@@ -94,8 +87,6 @@ const models: TsoaRoute.Models = {
             "memberId": {"dataType":"double","required":true},
             "storeId": {"dataType":"double","required":true},
             "content": {"dataType":"string","required":true},
-            "score": {"dataType":"double","required":true},
-            "createdAt": {"dataType":"datetime","required":true},
         },
         "additionalProperties": false,
     },
@@ -114,9 +105,8 @@ const models: TsoaRoute.Models = {
     "ReviewCreateRequest": {
         "dataType": "refObject",
         "properties": {
-            "memberId": {"dataType":"double","required":true},
             "content": {"dataType":"string","required":true},
-            "score": {"dataType":"double","required":true},
+            "score": {"dataType":"double"},
         },
         "additionalProperties": false,
     },
@@ -176,13 +166,18 @@ const models: TsoaRoute.Models = {
         "additionalProperties": false,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "MissionStatus": {
+        "dataType": "refEnum",
+        "enums": ["CHALLENGING","COMPLETE"],
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     "MissionChallengeResponse": {
         "dataType": "refObject",
         "properties": {
             "memberMissionId": {"dataType":"double","required":true},
             "memberId": {"dataType":"double","required":true},
             "missionId": {"dataType":"double","required":true},
-            "status": {"dataType":"string","required":true},
+            "status": {"ref":"MissionStatus","required":true},
         },
         "additionalProperties": false,
     },
@@ -201,8 +196,7 @@ const models: TsoaRoute.Models = {
     "MissionChallengeRequest": {
         "dataType": "refObject",
         "properties": {
-            "memberId": {"dataType":"double","required":true},
-            "status": {"dataType":"union","subSchemas":[{"dataType":"enum","enums":["CHALLENGING"]},{"dataType":"enum","enums":["COMPLETE"]}],"required":true},
+            "status": {"ref":"MissionStatus"},
         },
         "additionalProperties": false,
     },
@@ -230,7 +224,7 @@ const models: TsoaRoute.Models = {
     "OngoingMissionListResponse": {
         "dataType": "refObject",
         "properties": {
-            "data": {"dataType":"array","array":{"dataType":"refObject","ref":"MissionCreateResponse"},"required":true},
+            "data": {"dataType":"array","array":{"dataType":"refObject","ref":"MissionChallengeResponse"},"required":true},
             "pagination": {"dataType":"nestedObjectLiteral","nestedProperties":{"cursor":{"dataType":"union","subSchemas":[{"dataType":"double"},{"dataType":"enum","enums":[null]}],"required":true}},"required":true},
         },
         "additionalProperties": false,
@@ -252,10 +246,9 @@ const models: TsoaRoute.Models = {
         "properties": {
             "memberId": {"dataType":"double","required":true},
             "name": {"dataType":"string","required":true},
-            "nickname": {"dataType":"string","required":true},
+            "nickname": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
             "email": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
-            "phoneNum": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
-            "status": {"dataType":"string","required":true},
+            "phoneNumber": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
         },
         "additionalProperties": false,
     },
@@ -275,14 +268,54 @@ const models: TsoaRoute.Models = {
         "dataType": "refObject",
         "properties": {
             "name": {"dataType":"string","required":true},
-            "nickname": {"dataType":"string","required":true},
+            "nickname": {"dataType":"string"},
             "email": {"dataType":"string"},
             "password": {"dataType":"string"},
-            "phoneNum": {"dataType":"string"},
+            "phoneNumber": {"dataType":"string"},
             "birth": {"dataType":"string"},
             "gender": {"dataType":"string"},
             "address": {"dataType":"string"},
-            "specAddress": {"dataType":"string"},
+            "detailAddress": {"dataType":"string"},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "UserUpdateResponse": {
+        "dataType": "refObject",
+        "properties": {
+            "memberId": {"dataType":"double","required":true},
+            "name": {"dataType":"string","required":true},
+            "nickname": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
+            "email": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
+            "phoneNumber": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
+            "gender": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
+            "birth": {"dataType":"union","subSchemas":[{"dataType":"datetime"},{"dataType":"enum","enums":[null]}],"required":true},
+            "address": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
+            "detailAddress": {"dataType":"union","subSchemas":[{"dataType":"string"},{"dataType":"enum","enums":[null]}],"required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "ApiResponse_UserUpdateResponse_": {
+        "dataType": "refObject",
+        "properties": {
+            "isSuccess": {"dataType":"boolean","required":true},
+            "code": {"dataType":"string","required":true},
+            "message": {"dataType":"string","required":true},
+            "result": {"dataType":"union","subSchemas":[{"ref":"UserUpdateResponse"},{"dataType":"enum","enums":[null]}],"required":true},
+        },
+        "additionalProperties": false,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    "UserUpdateRequest": {
+        "dataType": "refObject",
+        "properties": {
+            "nickname": {"dataType":"string"},
+            "phoneNumber": {"dataType":"string"},
+            "birth": {"dataType":"string"},
+            "gender": {"dataType":"string"},
+            "address": {"dataType":"string"},
+            "detailAddress": {"dataType":"string"},
         },
         "additionalProperties": false,
     },
@@ -308,6 +341,7 @@ export function RegisterRoutes(app: Router) {
                 body: {"in":"body","name":"body","required":true,"ref":"StoreCreateRequest"},
         };
         app.post('/stores',
+            authenticateMiddleware([{"bearerAuth":[]}]),
             ...(fetchMiddlewares<RequestHandler>(StoreController)),
             ...(fetchMiddlewares<RequestHandler>(StoreController.prototype.handleCreateStore)),
 
@@ -367,9 +401,11 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsStoreController_handleCreateReview: Record<string, TsoaRoute.ParameterSchema> = {
                 storeId: {"in":"path","name":"storeId","required":true,"dataType":"double"},
+                req: {"in":"request","name":"req","required":true,"dataType":"object"},
                 body: {"in":"body","name":"body","required":true,"ref":"ReviewCreateRequest"},
         };
         app.post('/stores/:storeId/reviews',
+            authenticateMiddleware([{"bearerAuth":[]}]),
             ...(fetchMiddlewares<RequestHandler>(StoreController)),
             ...(fetchMiddlewares<RequestHandler>(StoreController.prototype.handleCreateReview)),
 
@@ -432,6 +468,7 @@ export function RegisterRoutes(app: Router) {
                 body: {"in":"body","name":"body","required":true,"ref":"MissionCreateRequest"},
         };
         app.post('/stores/:storeId/missions',
+            authenticateMiddleware([{"bearerAuth":[]}]),
             ...(fetchMiddlewares<RequestHandler>(StoreController)),
             ...(fetchMiddlewares<RequestHandler>(StoreController.prototype.handleCreateMission)),
 
@@ -460,9 +497,11 @@ export function RegisterRoutes(app: Router) {
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsMissionController_handleChallengeMission: Record<string, TsoaRoute.ParameterSchema> = {
                 missionId: {"in":"path","name":"missionId","required":true,"dataType":"double"},
+                req: {"in":"request","name":"req","required":true,"dataType":"object"},
                 body: {"in":"body","name":"body","required":true,"ref":"MissionChallengeRequest"},
         };
         app.post('/missions/:missionId/challenge',
+            authenticateMiddleware([{"bearerAuth":[]}]),
             ...(fetchMiddlewares<RequestHandler>(MissionController)),
             ...(fetchMiddlewares<RequestHandler>(MissionController.prototype.handleChallengeMission)),
 
@@ -490,10 +529,11 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsUserController_handleListUserReviews: Record<string, TsoaRoute.ParameterSchema> = {
-                userId: {"in":"path","name":"userId","required":true,"dataType":"double"},
+                req: {"in":"request","name":"req","required":true,"dataType":"object"},
                 cursor: {"in":"query","name":"cursor","dataType":"double"},
         };
-        app.get('/users/:userId/reviews',
+        app.get('/users/me/reviews',
+            authenticateMiddleware([{"bearerAuth":[]}]),
             ...(fetchMiddlewares<RequestHandler>(UserController)),
             ...(fetchMiddlewares<RequestHandler>(UserController.prototype.handleListUserReviews)),
 
@@ -521,10 +561,11 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsUserController_handleListOngoingMissions: Record<string, TsoaRoute.ParameterSchema> = {
-                userId: {"in":"path","name":"userId","required":true,"dataType":"double"},
+                req: {"in":"request","name":"req","required":true,"dataType":"object"},
                 cursor: {"in":"query","name":"cursor","dataType":"double"},
         };
-        app.get('/users/:userId/missions',
+        app.get('/users/me/missions',
+            authenticateMiddleware([{"bearerAuth":[]}]),
             ...(fetchMiddlewares<RequestHandler>(UserController)),
             ...(fetchMiddlewares<RequestHandler>(UserController.prototype.handleListOngoingMissions)),
 
@@ -552,10 +593,11 @@ export function RegisterRoutes(app: Router) {
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
         const argsUserController_handleCompleteMission: Record<string, TsoaRoute.ParameterSchema> = {
-                userId: {"in":"path","name":"userId","required":true,"dataType":"double"},
+                req: {"in":"request","name":"req","required":true,"dataType":"object"},
                 missionId: {"in":"path","name":"missionId","required":true,"dataType":"double"},
         };
-        app.patch('/users/:userId/missions/:missionId',
+        app.patch('/users/me/missions/:missionId',
+            authenticateMiddleware([{"bearerAuth":[]}]),
             ...(fetchMiddlewares<RequestHandler>(UserController)),
             ...(fetchMiddlewares<RequestHandler>(UserController.prototype.handleCompleteMission)),
 
@@ -612,9 +654,111 @@ export function RegisterRoutes(app: Router) {
             }
         });
         // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        const argsMemberController_handleUpdateMe: Record<string, TsoaRoute.ParameterSchema> = {
+                req: {"in":"request","name":"req","required":true,"dataType":"object"},
+                body: {"in":"body","name":"body","required":true,"ref":"UserUpdateRequest"},
+        };
+        app.patch('/members/me',
+            authenticateMiddleware([{"bearerAuth":[]}]),
+            ...(fetchMiddlewares<RequestHandler>(MemberController)),
+            ...(fetchMiddlewares<RequestHandler>(MemberController.prototype.handleUpdateMe)),
+
+            async function MemberController_handleUpdateMe(request: ExRequest, response: ExResponse, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = templateService.getValidatedArgs({ args: argsMemberController_handleUpdateMe, request, response });
+
+                const controller = new MemberController();
+
+              await templateService.apiHandler({
+                methodName: 'handleUpdateMe',
+                controller,
+                response,
+                next,
+                validatedArgs,
+                successStatus: undefined,
+              });
+            } catch (err) {
+                return next(err);
+            }
+        });
+        // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 
+
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+    function authenticateMiddleware(security: TsoaRoute.Security[] = []) {
+        return async function runAuthenticationMiddleware(request: any, response: any, next: any) {
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            // keep track of failed auth attempts so we can hand back the most
+            // recent one.  This behavior was previously existing so preserving it
+            // here
+            const failedAttempts: any[] = [];
+            const pushAndRethrow = (error: any) => {
+                failedAttempts.push(error);
+                throw error;
+            };
+
+            const secMethodOrPromises: Promise<any>[] = [];
+            for (const secMethod of security) {
+                if (Object.keys(secMethod).length > 1) {
+                    const secMethodAndPromises: Promise<any>[] = [];
+
+                    for (const name in secMethod) {
+                        secMethodAndPromises.push(
+                            expressAuthenticationRecasted(request, name, secMethod[name], response)
+                                .catch(pushAndRethrow)
+                        );
+                    }
+
+                    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+                    secMethodOrPromises.push(Promise.all(secMethodAndPromises)
+                        .then(users => { return users[0]; }));
+                } else {
+                    for (const name in secMethod) {
+                        secMethodOrPromises.push(
+                            expressAuthenticationRecasted(request, name, secMethod[name], response)
+                                .catch(pushAndRethrow)
+                        );
+                    }
+                }
+            }
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+
+            try {
+                request['user'] = await Promise.any(secMethodOrPromises);
+
+                // Response was sent in middleware, abort
+                if (response.writableEnded) {
+                    return;
+                }
+
+                next();
+            }
+            catch(err) {
+                // Show most recent error as response
+                const error = failedAttempts.pop();
+                error.status = error.status || 401;
+
+                // Response was sent in middleware, abort
+                if (response.writableEnded) {
+                    return;
+                }
+                next(error);
+            }
+
+            // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+        }
+    }
 
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 }

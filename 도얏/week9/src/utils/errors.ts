@@ -1,11 +1,13 @@
+import { ErrorCode, ErrorCodeValue } from './errorCode.js'
+
 export class BaseError extends Error {
   status: number
   code: string
 
-  constructor(message: string, statusCode = 500, code = 'INTERNAL_ERROR') {
-    super(message)
+  constructor(errorCode: ErrorCodeValue = ErrorCode.INTERNAL_ERROR) {
+    super(errorCode.message)
     this.name = 'BaseError'
-    this.status = statusCode
-    this.code = code
+    this.status = errorCode.status
+    this.code = errorCode.code
   }
 }

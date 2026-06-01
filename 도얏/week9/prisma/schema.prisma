@@ -7,6 +7,11 @@ datasource db {
   provider = "mysql"
 }
 
+enum MissionStatus {
+  CHALLENGING
+  COMPLETE
+}
+
 model User {
   id            Int       @id @default(autoincrement())
   email         String    @unique(map: "email") @db.VarChar(255)
@@ -43,7 +48,7 @@ model UserFavorCategory {
   foodCategory   FoodCategory @relation(fields: [foodCategoryId], references: [id])
 
   @@index([foodCategoryId], map: "f_category_id")
-  @@index([userId],         map: "user_id")
+  @@index([userId], map: "user_id")
   @@map("user_favor_category")
 }
 
@@ -67,19 +72,19 @@ model UserStoreReview {
   user  User  @relation(fields: [userId], references: [id])
 
   @@index([storeId], map: "store_id")
-  @@index([userId],  map: "user_id")
+  @@index([userId], map: "user_id")
   @@map("user_store_review")
 }
 
 model Mission {
-  id       Int      @id @default(autoincrement())
-  storeId  Int      @map("store_id")
-  title    String   @db.VarChar(200)
+  id       Int       @id @default(autoincrement())
+  storeId  Int       @map("store_id")
+  title    String    @db.VarChar(200)
   reward   Int
-  spec     String?  @db.Text
+  spec     String?   @db.Text
   deadLine DateTime? @map("dead_line")
 
-  store          Store         @relation(fields: [storeId], references: [id])
+  store          Store           @relation(fields: [storeId], references: [id])
   memberMissions MemberMission[]
 
   @@index([storeId], map: "store_id")
@@ -87,16 +92,15 @@ model Mission {
 }
 
 model MemberMission {
-  id        Int     @id @default(autoincrement())
-  userId    Int     @map("member_id")
-  missionId Int     @map("mission_id")
-  status    String  @db.VarChar(15)
+  id        Int           @id @default(autoincrement())
+  memberId  Int           @map("member_id")
+  missionId Int           @map("mission_id")
+  status    MissionStatus @default(CHALLENGING)
 
-  user    User    @relation(fields: [userId], references: [id])
+  user    User    @relation(fields: [memberId], references: [id])
   mission Mission @relation(fields: [missionId], references: [id])
 
-  @@index([userId],    map: "member_id")
+  @@index([memberId], map: "member_id")
   @@index([missionId], map: "mission_id")
   @@map("member_mission")
 }
-

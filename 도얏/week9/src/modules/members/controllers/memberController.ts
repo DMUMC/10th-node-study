@@ -1,7 +1,7 @@
 import { Body, Controller, Patch, Post, Request, Route, Security, Tags, Response as TsoaResponse, SuccessResponse } from 'tsoa'
 import { Request as ExRequest } from 'express'
-import { MemberSignUpRequest, MemberSignUpResponse, UserUpdateRequest, UserUpdateResponse } from '../dtos/member.dto.js'
-import { signUp, updateUserInfo } from '../services/member.service.js'
+import { MemberSignUpRequest, MemberSignUpResponse, UserUpdateRequest, UserUpdateResponse } from '../dtos/memberDto.js'
+import { signUp, updateUserInfo } from '../services/memberService.js'
 import { ApiResponse, successResponse } from '../../../utils/response.js'
 
 @Route('members')

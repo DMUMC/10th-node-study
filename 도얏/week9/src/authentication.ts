@@ -1,6 +1,6 @@
 import { Request } from 'express'
 import jwt from 'jsonwebtoken'
-import { prisma } from './db.config.js'
+import { prisma } from './dbConfig.js'
 
 /**
  * TSOA 보안 미들웨어 - @Security("bearerAuth") 데코레이터와 연동
@@ -21,9 +21,18 @@ export async function expressAuthentication(
   }
 
   const token = authHeader.split(' ')[1]
+  const jwtSecret = process.env.JWT_SECRET
+
+  if (!token) {
+    throw Object.assign(new Error('인증 토큰이 필요합니다.'), { status: 401 })
+  }
+
+  if (!jwtSecret) {
+    throw Object.assign(new Error('JWT_SECRET이 설정되지 않았습니다.'), { status: 500 })
+  }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { id: number }
+    const decoded = jwt.verify(token, jwtSecret) as unknown as { id: number }
     const user = await prisma.user.findFirst({ where: { id: decoded.id } })
     if (!user) {
       throw Object.assign(new Error('사용자를 찾을 수 없습니다.'), { status: 401 })

@@ -6,19 +6,16 @@ import {
   bodyToUserUpdate,
   responseFromMember,
   responseFromUserUpdate,
-} from '../dtos/member.dto.js'
-import { addUser, getUser, updateUser } from '../repositories/member.repository.js'
+} from '../dtos/memberDto.js'
+import { addUser, getUser, updateUser } from '../repositories/memberRepository.js'
 import { BaseError } from '../../../utils/errors.js'
 import { ErrorCode } from '../../../utils/errorCode.js'
 
 // 회원가입
 export const signUp = async (data: MemberSignUpRequest) => {
+  // TSOA required 검증 이후에도 빈 문자열 입력은 서비스에서 한 번 더 방어합니다.
   if (!data.name) {
-    throw new BaseError(
-      ErrorCode.MEMBER_REQUIRED_FIELD.message,
-      ErrorCode.MEMBER_REQUIRED_FIELD.status,
-      ErrorCode.MEMBER_REQUIRED_FIELD.code,
-    )
+    throw new BaseError(ErrorCode.MEMBER_REQUIRED_FIELD)
   }
 
   const hashedPassword = data.password ? await bcrypt.hash(data.password, 10) : null
@@ -27,11 +24,7 @@ export const signUp = async (data: MemberSignUpRequest) => {
   const memberId = await addUser({ ...memberData, ...(hashedPassword ? { password: hashedPassword } : {}) })
 
   if (memberId === null) {
-    throw new BaseError(
-      ErrorCode.DUPLICATE_EMAIL.message,
-      ErrorCode.DUPLICATE_EMAIL.status,
-      ErrorCode.DUPLICATE_EMAIL.code,
-    )
+    throw new BaseError(ErrorCode.DUPLICATE_EMAIL)
   }
 
   const member = await getUser(memberId)
