@@ -6,6 +6,8 @@ import { prisma } from './dbConfig.js'
 
 dotenv.config()
 
+const googleCallbackURL = process.env.GOOGLE_CALLBACK_URL ?? '/oauth2/callback/google'
+
 // ────────────────────────────────────────────────
 // JWT 토큰 생성 헬퍼
 // ────────────────────────────────────────────────
@@ -49,17 +51,18 @@ export const googleStrategy = new GoogleStrategy(
   {
     clientID: process.env.PASSPORT_GOOGLE_CLIENT_ID!,
     clientSecret: process.env.PASSPORT_GOOGLE_CLIENT_SECRET!,
-    callbackURL: '/oauth2/callback/google',
+    callbackURL: googleCallbackURL,
     scope: ['email', 'profile'],
   },
   async (_accessToken, _refreshToken, profile, cb) => {
     try {
       const user = await googleVerify(profile)
-      const tokens = {
+      const authResult = {
+        user,
         accessToken: generateAccessToken(user),
         refreshToken: generateRefreshToken(user),
       }
-      return cb(null, tokens)
+      return cb(null, authResult)
     } catch (err) {
       return cb(err as Error)
     }
