@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import swaggerUi from "swagger-ui-express";
 import { RegisterRoutes } from "./routes";
 import { AppError } from "./errors";
+import { authMiddleware } from "./middleware/auth";
 
 const app = express();
 
@@ -13,14 +14,15 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Swagger UI
 const swaggerDocument = require("../public/swagger.json");
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// TSOA 자동 생성 라우트 등록
+// 로그인 필요한 경로
+app.use("/api/users", authMiddleware);
+app.use("/api/user-missions", authMiddleware);
+
 RegisterRoutes(app);
 
-// 에러 핸들러
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof AppError) {
     res.status(err.statusCode).json({

@@ -2,12 +2,20 @@
   "entryFile": "src/index.ts",
   "noImplicitAdditionalProperties": "throw-on-extras",
   "controllerPathGlobs": ["src/controllers/**/*Controller.ts"],
+  "authenticationModule": "./authentication",
   "spec": {
     "outputDirectory": "public",
     "specVersion": 3,
     "info": {
       "title": "UMC Server API",
       "version": "1.0.0"
+    },
+    "securityDefinitions": {
+      "jwt": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
     }
   },
   "routes": {

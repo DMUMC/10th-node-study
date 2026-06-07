@@ -56,9 +56,67 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"UpdateUserBody": {
+				"properties": {
+					"nickname": {
+						"type": "string"
+					},
+					"phone": {
+						"type": "string"
+					},
+					"birthday": {
+						"type": "string",
+						"description": "YYYY-MM-DD 형식"
+					}
+				},
+				"type": "object",
+				"additionalProperties": false
+			},
+			"SignupBody": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					},
+					"nickname": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"password",
+					"nickname"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"LoginBody": {
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"email",
+					"password"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
-		"securitySchemes": {}
+		"securitySchemes": {
+			"jwt": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
 	},
 	"info": {
 		"title": "server",
@@ -69,7 +127,7 @@
 		"contact": {}
 	},
 	"paths": {
-		"/api/users/{userId}/reviews": {
+		"/api/users/me/reviews": {
 			"get": {
 				"operationId": "GetMyReviews",
 				"responses": {
@@ -83,8 +141,8 @@
 							}
 						}
 					},
-					"404": {
-						"description": "존재하지 않는 유저입니다.",
+					"401": {
+						"description": "로그인이 필요합니다.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -94,25 +152,15 @@
 						}
 					}
 				},
-				"description": "내가 작성한 리뷰 목록을 조회합니다.",
+				"description": "내가 작성한 리뷰 목록",
 				"tags": [
 					"User"
 				],
 				"security": [],
-				"parameters": [
-					{
-						"in": "path",
-						"name": "userId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					}
-				]
+				"parameters": []
 			}
 		},
-		"/api/users/{userId}/missions": {
+		"/api/users/me/missions": {
 			"get": {
 				"operationId": "GetMyMissions",
 				"responses": {
@@ -126,8 +174,8 @@
 							}
 						}
 					},
-					"404": {
-						"description": "존재하지 않는 유저입니다.",
+					"401": {
+						"description": "로그인이 필요합니다.",
 						"content": {
 							"application/json": {
 								"schema": {
@@ -137,21 +185,12 @@
 						}
 					}
 				},
-				"description": "내가 진행 중인 미션 목록을 조회합니다.",
+				"description": "내가 진행 중인 미션 목록",
 				"tags": [
 					"User"
 				],
 				"security": [],
 				"parameters": [
-					{
-						"in": "path",
-						"name": "userId",
-						"required": true,
-						"schema": {
-							"format": "double",
-							"type": "number"
-						}
-					},
 					{
 						"in": "query",
 						"name": "status",
@@ -166,6 +205,49 @@
 						}
 					}
 				]
+			}
+		},
+		"/api/users/me": {
+			"patch": {
+				"operationId": "UpdateMe",
+				"responses": {
+					"200": {
+						"description": "성공",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SR"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "로그인이 필요합니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "내 정보 수정",
+				"tags": [
+					"User"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateUserBody"
+							}
+						}
+					}
+				}
 			}
 		},
 		"/api/stores/{storeId}/missions": {
@@ -225,6 +307,16 @@
 							}
 						}
 					},
+					"401": {
+						"description": "로그인이 필요합니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					},
 					"404": {
 						"description": "존재하지 않는 미션입니다.",
 						"content": {
@@ -262,6 +354,102 @@
 						}
 					}
 				]
+			}
+		},
+		"/api/auth/signup": {
+			"post": {
+				"operationId": "Signup",
+				"responses": {
+					"201": {
+						"description": "회원가입 성공",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SR"
+								}
+							}
+						}
+					},
+					"409": {
+						"description": "이미 존재하는 이메일입니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "회원가입",
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SignupBody"
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/auth/login": {
+			"post": {
+				"operationId": "Login",
+				"responses": {
+					"200": {
+						"description": "로그인 성공",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SR"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "비밀번호가 일치하지 않습니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "존재하지 않는 유저입니다.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/ErrorResponse"
+								}
+							}
+						}
+					}
+				},
+				"description": "로그인",
+				"tags": [
+					"Auth"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/LoginBody"
+							}
+						}
+					}
+				}
 			}
 		}
 	},
